@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% load cart %}
+<h1></h1>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">Sr.No</th>
+        <th scope="col">Product</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Price</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    {% for i in products %}
+
+    <tr>
+        <th scope="row">{{i.id}}</th>
+        <td>{{i.PRODUCT}}</td>
+        <td>{{i|cart_quantity:request.session.cart}}</td>
+        <td>{{i|price_total:request.session.cart}}</td>
+    </tr>
+
+    {% endfor %}
+    <tfoot>
+    <tr>
+        <th class="text-end" colspan="2">Total</th>
+        <th class="text-center" colspan="2">{{products|final_price:request.session.cart}}</th>
+    </tr>
+    </tfoot>
+    </tbody>
+</table>
+<!-- Button trigger modal -->
+<div class="container text-end p-3">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        Place order
+    </button>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Customer Details</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'cartpage' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group m-2">
+                        <label for="" class="fs-4">Phone</label>
+                        <input type="number" class="form-control" id="" name="phone" placeholder="Enter phone number" aria-describedy="helpId">
+                    </div>
+                    <div class="form-group m-2">
+                        <label for="" class="fs-4">Address</label>
+                        <input type="text" class="form-control" id="" name="Address" placeholder="Enter Address" aria-describedy="helpId">
+                    </div>
+                    <div class="modal-footer m-2">
+                        <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Place Order</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

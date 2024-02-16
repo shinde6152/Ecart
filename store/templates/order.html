@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% load cart %}
+<div><h1 class="m-3">Order Status</h1></div>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">Sr.No</th>
+        <th scope="col">Product</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Price</th>
+        <th scope="col">Status</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    {% for i in order %}
+
+    <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{i.product}}</td>
+        <td>{{i.quantity}}</td>
+        <td>{{i.quantity|multiply:i.price}}</td>
+        <td>
+            {% if i.status %}
+                <h5><span class="badge bg-primary">Accept</span></h5>
+            {% else %}
+                <h5><span class="badge bg-warning">Pending</span></h5>
+            {% endif %}
+        </td>
+    </tr>
+
+    {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}
